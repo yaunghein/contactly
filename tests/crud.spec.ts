@@ -19,7 +19,7 @@ test("user can create and read a contact", async ({ page }) => {
   await registerUser(page, crudUser);
   await page.goto("/");
   await page.getByRole("link", { name: "contacts" }).click();
-  await expect(page).toHaveURL("/contacts");
+  await expect(page).toHaveURL(/\/contacts\/?$/);
 
   await page.getByRole("button", { name: "new contact" }).click();
   const contactForm = page.getByTestId("create-contact-form");
@@ -38,7 +38,7 @@ test("user can update a contact", async ({ page }) => {
   await loginUser(page, crudUser);
   await page.goto("/");
   await page.getByRole("link", { name: "contacts" }).click();
-  await expect(page).toHaveURL("/contacts");
+  await expect(page).toHaveURL(/\/contacts\/?$/);
 
   await page
     .getByRole("table")
@@ -66,7 +66,7 @@ test("user can delete a contact", async ({ page }) => {
   await loginUser(page, crudUser);
   await page.goto("/");
   await page.getByRole("link", { name: "contacts" }).click();
-  await expect(page).toHaveURL("/contacts");
+  await expect(page).toHaveURL(/\/contacts\/?$/);
 
   await page
     .getByRole("table")
