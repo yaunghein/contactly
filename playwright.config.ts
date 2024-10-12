@@ -16,10 +16,10 @@ const config: PlaywrightTestConfig = {
     }
   ],
   globalSetup: resolve("tests/globalSetup.ts"),
-  globalTeardown: resolve("tests/globalSetup.ts"),
-  use: {
-    headless: false
-  }
+  globalTeardown: resolve("tests/globalSetup.ts")
+  // use: {
+  //   headless: false
+  // }
 };
 
 export default config;
