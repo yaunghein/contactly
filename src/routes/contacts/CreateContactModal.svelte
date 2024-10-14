@@ -3,15 +3,27 @@
   import { Button, Modal } from "flowbite-svelte";
   import { superForm } from "sveltekit-superforms/client";
   import type { Validation } from "sveltekit-superforms/index";
+  import toast from "svelte-french-toast";
   export let data: Validation<CreateContactSchema>;
   export let open = false;
   const { form, errors, enhance } = superForm(data, {
     resetForm: true,
     onResult: ({ result }) => {
-      if (result.type === "success") {
-        open = false;
-        return;
+      switch (result.type) {
+        case "success":
+          open = false;
+          toast.success("Successfully create contact!");
+          break;
+        case "error":
+          toast.error("Error creating your contact.");
+          break;
+        case "failure":
+          toast.error("Error creating your contact.");
+          break;
+        default:
+          return;
       }
+      return;
     }
   });
 </script>

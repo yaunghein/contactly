@@ -1,12 +1,33 @@
 <script lang="ts">
   import { Card, Button } from "flowbite-svelte";
   import { superForm } from "sveltekit-superforms/client";
+  import toast from "svelte-french-toast";
   import type { PageData } from "./$types";
 
   export let data: PageData;
-  const { form, errors, enhance } = superForm(data.form);
+
+  const { form, errors, enhance } = superForm(data.form, {
+    resetForm: true,
+    onResult: ({ result }) => {
+      switch (result.type) {
+        case "redirect":
+          toast.success("Login successfully!");
+          break;
+        case "error":
+          toast.error("Error logging in your account!");
+          break;
+        case "failure":
+          toast.error("Check your details and try again!");
+          break;
+        default:
+          return;
+      }
+      return;
+    }
+  });
 </script>
 
+<button on:click={() => toast.success("fk you")}>fk you</button>
 <div class="py-20">
   <div class="flex w-full flex-col items-center">
     <!-- Login Page Header -->
