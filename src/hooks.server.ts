@@ -3,6 +3,7 @@ import { type Handle, redirect } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from "$env/static/public";
+import { handleLoginRedirect } from "$lib/helpers";
 
 const supabase: Handle = async ({ event, resolve }) => {
   /**
@@ -80,11 +81,11 @@ const authGuard: Handle = async ({ event, resolve }) => {
   // }
 
   if (!event.locals.session && event.url.pathname === "/account") {
-    throw redirect(303, "/login");
+    throw redirect(303, handleLoginRedirect(event));
   }
 
   if (!event.locals.session && event.url.pathname === "/contacts") {
-    throw redirect(303, "/login");
+    throw redirect(303, handleLoginRedirect(event));
   }
 
   return resolve(event);

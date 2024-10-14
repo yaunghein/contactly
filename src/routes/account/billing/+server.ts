@@ -3,14 +3,15 @@ import type { RequestHandler } from "./$types";
 import { getCustomerRecord } from "$lib/server/customers";
 import { stripe } from "$lib/server/stripe";
 import { ENV } from "$lib/server/env";
+import { handleLoginRedirect } from "$lib/helpers";
 
 export const GET: RequestHandler = async (event) => {
   const { session } = await event.locals.safeGetSession();
   if (!session) {
-    throw redirect(302, "/login");
+    handleLoginRedirect(event);
   }
 
-  const customer = await getCustomerRecord(session.user.id);
+  const customer = await getCustomerRecord(session!.user.id);
 
   const portalSession = await stripe.billingPortal.sessions.create({
     customer: customer.id,
